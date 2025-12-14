@@ -1,0 +1,7 @@
+{
+  "name": "Bitaxe Cloud by dRu",
+  "description": "A mobile-first dashboard to monitor Bitaxe Bitcoin miners with an integrated AI assistant for troubleshooting and optimization.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

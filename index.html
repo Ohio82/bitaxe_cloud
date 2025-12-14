@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Bitaxe Sentry Mobile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              gray: {
+                850: '#1f2937',
+                900: '#111827',
+                950: '#0b0f19',
+              },
+              // We hijack the 'orange' palette to be our dynamic theme color.
+              // This avoids refactoring the entire codebase while allowing dynamic switching.
+              orange: {
+                50: 'rgb(var(--theme-50) / <alpha-value>)',
+                100: 'rgb(var(--theme-100) / <alpha-value>)',
+                200: 'rgb(var(--theme-200) / <alpha-value>)',
+                300: 'rgb(var(--theme-300) / <alpha-value>)',
+                400: 'rgb(var(--theme-400) / <alpha-value>)',
+                500: 'rgb(var(--theme-500) / <alpha-value>)',
+                600: 'rgb(var(--theme-600) / <alpha-value>)',
+                700: 'rgb(var(--theme-700) / <alpha-value>)',
+                800: 'rgb(var(--theme-800) / <alpha-value>)',
+                900: 'rgb(var(--theme-900) / <alpha-value>)',
+              }
+            },
+            fontFamily: {
+              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        /* Default (Orange) - Bitcoin Standard */
+        --theme-50: 255 247 237;
+        --theme-100: 255 237 213;
+        --theme-200: 254 215 170;
+        --theme-300: 253 186 116;
+        --theme-400: 251 146 60;
+        --theme-500: 249 115 22;
+        --theme-600: 234 88 12;
+        --theme-700: 194 65 12;
+        --theme-800: 154 52 18;
+        --theme-900: 124 45 18;
+      }
+
+      /* Blue Theme - "Ice Cold" */
+      [data-theme='blue'] {
+        --theme-50: 239 246 255;
+        --theme-100: 219 234 254;
+        --theme-200: 191 219 254;
+        --theme-300: 147 197 253;
+        --theme-400: 96 165 250;
+        --theme-500: 59 130 246;
+        --theme-600: 37 99 235;
+        --theme-700: 29 78 216;
+        --theme-800: 30 64 175;
+        --theme-900: 30 58 138;
+      }
+
+      /* Purple Theme - "Synthwave" */
+      [data-theme='purple'] {
+        --theme-50: 250 245 255;
+        --theme-100: 243 232 255;
+        --theme-200: 233 213 255;
+        --theme-300: 216 180 254;
+        --theme-400: 192 132 252;
+        --theme-500: 168 85 247;
+        --theme-600: 147 51 234;
+        --theme-700: 126 34 206;
+        --theme-800: 107 33 168;
+        --theme-900: 88 28 135;
+      }
+
+      /* Emerald Theme - "Eco Mode" */
+      [data-theme='emerald'] {
+        --theme-50: 236 253 245;
+        --theme-100: 209 250 229;
+        --theme-200: 167 243 208;
+        --theme-300: 110 231 183;
+        --theme-400: 52 211 153;
+        --theme-500: 16 185 129;
+        --theme-600: 5 150 105;
+        --theme-700: 4 120 87;
+        --theme-800: 6 95 70;
+        --theme-900: 6 78 59;
+      }
+      
+      /* Crimson Theme - "Overclocked" */
+      [data-theme='crimson'] {
+        --theme-50: 255 241 242;
+        --theme-100: 255 228 230;
+        --theme-200: 254 205 211;
+        --theme-300: 253 164 175;
+        --theme-400: 251 113 133;
+        --theme-500: 244 63 94;
+        --theme-600: 225 29 72;
+        --theme-700: 190 18 60;
+        --theme-800: 159 18 57;
+        --theme-900: 136 19 55;
+      }
+
+      body {
+        background-color: #0b0f19;
+        color: #e5e7eb;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+      
+      /* Subtle Animations */
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      
+      /* Floating Animation */
+      @keyframes float { 
+        0%, 100% { transform: translateY(0px); } 
+        50% { transform: translateY(-5px); } 
+      }
+      
+      /* Gradient Text Shimmer */
+      @keyframes gradient-xy {
+          0%, 100% {
+              background-size: 200% 200%;
+              background-position: left center;
+          }
+          50% {
+              background-size: 200% 200%;
+              background-position: right center;
+          }
+      }
+
+      /* Text Breathe (Gentle Opacity) */
+      @keyframes text-breathe {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+      }
+
+      /* Border Glow Pulse (Theme Aware) */
+      @keyframes border-pulse {
+          0%, 100% { 
+            border-color: #374151; /* gray-700 */
+            box-shadow: 0 0 0 0 transparent;
+          }
+          50% { 
+            border-color: rgb(var(--theme-500) / 0.6); 
+            box-shadow: 0 0 12px 0 rgb(var(--theme-500) / 0.2);
+          }
+      }
+      
+      .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+      .animate-slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; }
+      .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
+      .animate-float { animation: float 4s ease-in-out infinite; }
+      .animate-text-breathe { animation: text-breathe 3s ease-in-out infinite; }
+      .animate-border-pulse { animation: border-pulse 3s ease-in-out infinite; }
+      
+      .animate-text-shimmer {
+          background-size: 200% auto;
+          animation: gradient-xy 3s linear infinite;
+      }
+      
+      .delay-100 { animation-delay: 100ms; }
+      .delay-200 { animation-delay: 200ms; }
+      .delay-300 { animation-delay: 300ms; }
+      .delay-400 { animation-delay: 400ms; }
+      .delay-500 { animation-delay: 500ms; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "recharts": "https://esm.sh/recharts@^3.5.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
